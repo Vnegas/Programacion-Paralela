@@ -1,1 +1,7 @@
-
+.vscode
+bin
+build
+doc
+temp
+.Thumbs.db
+.DS_Store

@@ -1,0 +1,18 @@
+procedure main(argc, argv[])
+  // create thread_count as result of converting argv[1] to integer
+  shared thread_count = integer(argv[1])
+  shared greets as array of thread_count texts
+  for (thread_number = 0, until thread_count) do
+    can_greet[thread_number] = create_semaphore(not thread_number)
+    create_thread(greet, thread_number) // thread team
+  end for
+  print "Hello from main thread"
+  for (thread_number = 0, until thread_count) do
+    print greets[thread_number]
+  end for
+end procedure
+
+procedure greet(thread_number)
+  greets[thread_number] = format("Hello from secondary thread", thread_number
+  , " of ", thread_count)
+end procedure
