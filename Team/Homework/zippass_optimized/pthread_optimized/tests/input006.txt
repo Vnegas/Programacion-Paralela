@@ -1,4 +1,0 @@
-abcdefghijklmnopqrstuvwxyz
-5
-
-tests/zip_05/f15.zip

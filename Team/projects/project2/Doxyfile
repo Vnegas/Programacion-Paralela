@@ -1,0 +1,4 @@
+@INCLUDE = ../../common/Doxyfile
+
+PROJECT_BRIEF = "Simulacion de calor con currencia declarativa"
+PROJECT_NAME = "Project1.2"

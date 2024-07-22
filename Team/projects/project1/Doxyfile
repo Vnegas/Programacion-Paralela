@@ -1,0 +1,4 @@
+@INCLUDE = ../../common/Doxyfile
+
+PROJECT_BRIEF = "Convertir servidor web serial a concurrente junto una WebApp de Goldbach"
+PROJECT_NAME = "Project1.1"

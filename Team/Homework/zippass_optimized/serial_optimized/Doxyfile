@@ -1,4 +1,0 @@
-@INCLUDE = ../../../common/Doxyfile
-
-PROJECT_BRIEF = "This project breaks the password of any encrypted zip file. Requires the alphabet of characters to be use and the max character to use."
-PROJECT_NAME = "ZipPassword Serial"

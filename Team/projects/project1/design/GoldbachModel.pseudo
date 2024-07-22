@@ -1,0 +1,64 @@
+class GoldbachModel {
+  procedure findNumber(array, number) do
+    for i = 0 to length(array) do
+      if array[i] = number do
+        return true
+      end if
+    end for
+  end procedure 
+
+
+  procedure calculateSums(input, results, sums) do
+    if input >= -5 && input <= 5 do
+      // do nothing
+    end if
+    else do
+      numero = abs(input)
+      isPrime = vector of booleans of size numero
+        initialized with true 
+      primes = empty int64_t vector
+      isPrime[0] = false
+      isPrime[1] = false
+
+      for i = 2 to numero do 
+        if isPrime[i] do
+          primes.push_back(i)
+          for j = 2 to (numero/i) do
+            isPrime[j * i] = 0
+          end for
+        end if
+      end for
+
+      // Goldbach starts here.
+      //if numero is even
+      if numero % 2 == 0 do
+        for i = 0 to length(primes) do
+          resultado = numero - primes[i]
+          if findNumber(primes, resultado) do
+            && resultado >= primes[i]
+            results.push_back(primes[i])
+            results.push_back(resultado)
+            totalSums++;
+          end if
+        end for
+      end if
+      else do
+        for i = 0 to length(primes) do
+          for j = i to length(primes) do
+            suma = primes[i] + primes[j]
+            if suma % 2 == 0 do
+                resultado = numero - 
+              if findNumber(primes, resultado) &&
+                resultado >= primes[j] do
+                results.push_back(primes[i])
+                results.push_back(primes[j])
+                results.push_back(resultado)
+                totalSums++
+              end if
+            end if
+          end for
+        end for
+      end else
+    end else
+  end procedure
+}

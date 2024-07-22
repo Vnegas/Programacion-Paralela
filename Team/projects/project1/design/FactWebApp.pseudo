@@ -1,0 +1,44 @@
+class FactWebApp {
+  start():
+  declare appQueue := Queue();
+  declare := factAnalizer =  FactReqAnalizer()
+  declare := factPacker = FactPacker()
+  declare := factMsg = FactShowMsg()
+  factAnalizer.setConsumingQueue(getQueue())
+  fact.setProducingQueue(queue)
+  fact.createOwnQueue()
+  this.factMsg.createOwnQueue()
+  for index := 0 tocalculator_count do
+    declare := calculators[index] = FactCalculator()
+    calculators[index].setConsumingQueue
+      (goldbachAnalizer.getProducingQueue())
+    calculators[index].setProducingQueue
+      (this->goldbachPacker.getConsumingQueue())
+  end for
+  factPacker.setProducingQueue
+  (this.factMsg.getConsumingQueue())
+
+  factAnalizer.startThread();
+  for index := 0 to calculator_count do 
+    calculators[index].startThread()
+  end for
+  factPacker.startThread()
+  factMsg.startThread()
+  end start
+
+  stop():
+    factAnalizer.waitToFinish()
+    for index := 0 to calculator_count do 
+      calculators[index].waitToFinish()
+    end for
+    factPacker.waitToFinish()
+    factMsg.waitToFinish()
+
+    delete factAnalizer
+    for index := 0 to calculator_count do 
+      delete calculators[index]
+    end for
+    delete factPacker
+    delte factMsg
+  end stop
+}

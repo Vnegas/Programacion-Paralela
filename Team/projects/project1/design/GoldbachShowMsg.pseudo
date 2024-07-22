@@ -1,0 +1,48 @@
+class GoldbachShowMsg {
+  procedure run():
+    consumeForever()
+  end procedure
+
+  procedure consume(data):
+    serveGoldbachResponse(data)
+  end procedure
+
+  serveGoldbachResponse(data):
+    print "Goldbach Sums"
+    for data_number := 0 to data.processed_number.size() -1 do
+      print data.processed_number[data_number].number, "\n"
+      if data.processed_number[data_number].number >= -5
+        and data.processed_number[data_number].number <= 5 then
+        print "NA"
+      end if
+      if data.processed_number[data_number].number > 5 then
+        print "Total Sums: ", data.processed_number[data_number].sums
+      end if
+      if data.processed_number[data_number].number < -5 then
+        print "Total Sums: ", data.processed_number[data_number].sums
+        pos := 0
+        for index := 0 to data.processed_number[data_number].results.size() do
+          if mod(data.processed_number[data_number].number, 2) = 0 then
+            print data.processed_number[data_number].results[index]
+            if pos = 1 then
+              print "\n"
+              pos := 0
+            else
+              print " + "
+              pos := pos + 1
+            end if
+          else
+            print data.processed_number[data_number].results[index]
+            if pos = 2 then
+              print "\n"
+              pos := 0
+            else
+              print " + "
+              pos  := pos + 1
+            end if
+          end if
+        end for
+      end if
+    end for
+  end procedure
+}

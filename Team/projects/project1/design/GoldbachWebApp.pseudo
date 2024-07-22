@@ -1,0 +1,44 @@
+class GoldbachWebApp {
+  start():
+    declare appQueue := Queue();
+    declare := goldbachAnalizer =  GoldbachReqAnalizer()
+    declare := goldbachPacker = GoldbachPacker()
+    declare := goldbachMsg = GoldbachShowMsg()
+    goldbachAnalizer.setConsumingQueue(getQueue())
+    goldbachAnalizer.setProducingQueue(queue)
+    goldbachPacker.createOwnQueue()
+    this.goldbachMsg.createOwnQueue()
+    for index := 0 tocalculator_count do
+      declare := calculators[index] = GoldbachCalculator()
+      calculators[index].setConsumingQueue
+        (goldbachAnalizer.getProducingQueue())
+      calculators[index].setProducingQueue
+        (this->goldbachPacker.getConsumingQueue())
+    end for
+    goldbachPacker.setProducingQueue
+    (this.goldbachMsg.getConsumingQueue())
+
+    goldbachAnalizer.startThread();
+    for index := 0 to calculator_count do 
+      calculators[index].startThread()
+    end for
+    goldbachPacker.startThread()
+    goldbachMsg.startThread()
+  end start
+
+  stop():
+    goldbachAnalizer.waitToFinish()
+    for index := 0 to calculator_count do 
+      calculators[index].waitToFinish()
+    end for
+    goldbachPacker.waitToFinish()
+    goldbachMsg.waitToFinish()
+
+    delete goldbachAnalizer
+    for index := 0 to calculator_count do 
+      delete calculators[index]
+    end for
+    delete goldbachPacker
+    delte goldbachMsg
+  end stop
+} // end of class

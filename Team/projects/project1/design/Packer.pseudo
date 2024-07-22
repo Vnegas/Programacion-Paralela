@@ -1,0 +1,20 @@
+class Packer {
+  run():
+    consumeForever();
+  end run
+
+  consume(reqProcessed data):
+    if (packages.find(data.id) != 0) do
+      if (packages.package is not complete) do
+        packages[data.id][data.pos] = data
+      end else do
+        declare resData as object of resPackage_t
+        produce(resData)
+      end
+    end else do
+      declare package as vector of reqProcessed_t
+      package[data.pos] = data
+      packages.push(package)
+    end
+  end consume
+}

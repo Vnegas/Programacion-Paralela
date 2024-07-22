@@ -1,0 +1,19 @@
+class ReqAnalizer {
+  run():
+    consumeForever();
+  end run
+
+  consume(reqRes_t data):
+    declare numbers as vector of int
+    uri = data.request->uri
+    if (uri is correct) do
+      for (i = 0; i < size of numbers; ++i) do
+        declare datos as object of reqProcessed_t
+        datos.number = numbers[i]
+        produce(datos)
+      end
+    end else do
+      serveHomepage()
+    end
+  end consume
+}

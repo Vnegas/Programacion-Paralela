@@ -1,0 +1,24 @@
+class HttpDispatcher {
+  run():
+   consumeForever();
+  end procedure
+
+  extractKey(const reqRes data):
+    for i := to aplicattions.size() do
+      if data->getURI() == aplicattions[i].ID do 
+        return this->applications[i]->ID
+      end if
+    end for
+  end procedure
+  
+  consume(reqRes data):
+    declare key := extractKey(data)
+    if key != "" do
+      declare itr := toQueques.find(key)
+      itr.enqueue(data)
+    else do
+      serveNotFound(data)
+    end if
+  end procedure
+}
+

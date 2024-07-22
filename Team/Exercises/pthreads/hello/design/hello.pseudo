@@ -1,8 +1,0 @@
-main:
-  crear hilo(greet)
-  print "Hello from main thread"
-fin
-
-greet:
-  print "Hello from secondary thread"
-fin greet

@@ -1,0 +1,4 @@
+@INCLUDE = ../../common/Doxyfile
+
+PROJECT_BRIEF = "Simulacion de calor serial"
+PROJECT_NAME = "Project1.2"

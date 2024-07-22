@@ -1,0 +1,79 @@
+class HttpServer {
+  run(int argc, char* argv[]):do
+    stopApps := false
+    try do
+      if (this->analyzeArguments(argc, argv)) do
+        serverQueue = create queue of Sockets
+        dispatcher = create HttpDispatcher(applications,
+            max_connection)
+        dispatcher->createOwnQueue()
+        handlers.resize(max_connection)
+        for (index = 0 until max_connection) do
+          handlers[index] = create HttpConnectionHandler
+          handlers[index]->setConsumingQueue(serverQueue)
+          handerls[index]->setProducingQueue(dispatcher->
+              getConsumingQueue())
+        end for
+
+        Log::getInstance().start()
+        startApps()
+        stopApps := true;
+
+        for (i = 0 until applications.size()) do
+          dispatcher->registerRedirect(applications[i]->ID,
+            applications[i]->getQueue())
+        end for
+
+        listenForConnections(port)
+        address = getNetworkAddress()
+        Log::append(Log::INFO, "webserver", "Listening on " + address.getIP()
+        + " port " + std::to_string(address.getPort()));
+
+        for (index = 0 until max_connection) do
+          handlers[index]->startThread()
+        end for
+        dispatcher->startThread()
+        acceptAllConnections()
+      end if
+    end try
+    catch (error: std::runtime_error) do
+      print "error: " + error.what()
+      for (index = 0 until max_connection+2) do
+        serverQueue->enqueue(Socket())
+      end for
+      for(index = 0 until max_connection) do
+        handlers[index]->waitToFinish()
+      end for
+      for (index = 0 until max_connection) do
+        delete handlers[index]
+      end for
+      delete serverQueue
+      delete dispatcher
+
+      if (stopApps) do
+        stopApps()
+      end if
+      Log::getInstance().stop()
+    end catch
+  end procedure 
+
+  analyzeArguments(int argc, char* argv[]): do
+    for (index = 1 until argc) do
+      argument = argv[index]
+      if (argument.find("help") != -1) do
+        print usage
+        return false
+      end if
+    end for
+    // Read all arguments
+    if (argc >= 3) do // if using default value or not
+      port = argv[1]
+      max_connection = stoi(argv[2])
+    end if
+    return true
+  end procedure
+
+  handleClientConnection(Socket& client):
+    serverQueue->enqueue(client);
+  end procedure
+}

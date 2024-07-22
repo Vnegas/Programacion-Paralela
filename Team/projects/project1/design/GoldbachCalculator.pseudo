@@ -1,0 +1,11 @@
+class GoldbachCalculator {
+  run():
+    consumeForever();
+  end run
+
+  consume(reqProcessed data):
+    declare model := GoldbachModel()
+    model.calculateSums(data)
+  end consume
+}
+ 

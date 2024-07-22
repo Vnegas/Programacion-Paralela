@@ -1,0 +1,144 @@
+procedure run:
+  analyze_argumens(argv)
+  extract_data()
+  fill_matrix()
+  write_report()
+  write_binary_matrix()
+end procedure
+
+procedure analyze_argumens(argv):
+  declare job := argv[]
+  declare input
+  declare file
+  file.open(job)
+  while getline(file, input) do
+    info.push_back(input)
+  end while
+end procedure
+
+procedure extract_data():
+  for i := 0 to info.size() do
+    declare aux
+    declare tmp as vector of strings
+    for j := 0 to info[i].size()  do
+      if (info[i][j] != ' ') do
+        aux := aux + info[i][j]
+        if j = info[i].size() - 1 do
+          tmp.push_back(aux)
+        end
+      else
+        if aux != "" do
+          tmp.push_back(aux)
+        end if
+        aux := ""
+      end if
+    end for
+  end for
+  for k := to tmp.size() do
+    declare tmp_path;
+    switch (k)
+    case 0:
+      tmp_path = path + tmp[k];
+      jobs[i].plate = tmp_path;
+    case 1:
+      jobs[i].delta_time = tmp[k];
+    case 2:
+      jobs[i].difusion = tmp[k];
+    case 3:
+      jobs[i].dimensions = tmp[k];
+    case 4:
+      jobs[i].sensibility = tmp[k];
+  end for
+end procedure
+
+procedure fill_matrix():
+  for i := 0 to jobs.size() do
+    declare file := jobs[i].plate
+    declare rows := file.read()
+    declare cols := file.read()
+    declare plate as matrix of doubles
+    for row := 0 to rows do 
+      for col := 0 to cols do 
+        declare number := file.read()
+        plate[row][col] := number
+      end for
+    end for
+    transfer_heat(i)
+  end for
+end procedure
+
+procedure transfer_heat(index):
+  while state_change(index) == false do
+  end while
+end procedure
+
+procedure state_change(index):
+  declare max_change := -1
+  for row := 1 to rows - 1 do 
+    for col := 1 to cols - 1 do 
+      declare change_cell = calculate_temp(index, row, col)
+      if change_cell > max_change do
+        max_change := change_cell
+      end if
+    end for
+    jobs[index].k++
+    jobs[index].time_elapsed := k * delta_time
+    if max_change > epsilon do
+      false
+    else 
+      true
+    end if
+  end for
+end procedure
+
+procedure calculate_temp(index, row, col):
+  jobs[index].plate[row][col] = jobs[index].plate[row][col] +
+  (((jobs[index].delta_time) * 
+  (jobs[index].diffusion)) / (jobs[index].dimensions ^ 2)) *
+  (jobs[index].plate[row - 1][col] + jobs[index].plate[row][col + 1]
+  + jobs[index].plate[row][col - 1] + jobs[index].plate[row + 1][col]
+  - 4 * jobs[index].current_plate[row][col]);
+end procedure
+
+procedure write_report():
+  declare results as vector of string
+  for i := 0 to jobs.size() do
+    buffer
+    << jobs[i].plate_name << "\t"
+    << jobs[i].delta_time << "\t"
+    << jobs[i].diffusion << "\t"
+    << jobs[i].dimensions << "\t"
+    << jobs[i].epsilon << "\t"
+    << jobs[i].k << "\t"
+    << format_time(jobs[i].time_elapsed) << "\n";
+    results.push_back(buffer)
+  end for
+
+  declare file
+  file.open()
+  if file.is_open() do
+    for i := to results.size() do
+      file << results[i]
+    end
+  end
+end procedure
+
+procedure write_binary_matrix():
+  for i := 0 to jobs.size() do
+    declare file := jobs[i].plate
+    declare plate as matrix of doubles
+    for row := 0 to rows do 
+      for col := 0 to cols do 
+        declare number := jobs[i].plate[row][col]
+        file.write(number)
+      end for
+    end for
+  end for
+end procedure
+
+procedure format_time(seconds):
+  declare text as array of char
+  declare gmt := gmtime(&seconds);
+  text, sizeof text, "%04d/%02d/%02d\t%02d:%02d:%02d", gmt.tm_year
+  - 70, gmt.tm_mon, gmt.tm_mday - 1, gmt.tm_hour, gmt.tm_min, gmt.tm_sec;
+end procedure

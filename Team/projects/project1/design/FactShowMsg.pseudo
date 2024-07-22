@@ -1,0 +1,43 @@
+class FactShowMsg {
+
+  procedure run():
+    consumeForever()
+  end procedure
+  
+  procedure consume(data):
+    servePrimFactResponse(data)
+  end procedure
+  
+  procedure servePrimFactResponse(data):
+    print "Prime Factorization"
+    for data_number := 0 to data.processed_number.size() -1 do
+      print data.processed_number[data_number].number, "\n"
+      if data.processed_number[data_number].number = 1 
+        or data.processed_number[data_number].number = 0 then
+        print "NA\n"
+      else if data.processed_number[data_number].number < 0 then
+        print "invalid number\n"
+      else
+        for index := 0 to data.processed_number[data_number].results.size() do
+          print data.processed_number[data_number].results[index]
+          if index + 1 != data.processed_number[data_number].results.size() then
+            if (data.processed_number[data_number].results[index]
+              = data.processed_number[data_number].results[index + 1] then
+              exponent := 1
+              while data.processed_number[data_number].results[index]
+                  = data.processed_number[data_number].results[index + 1] do
+                index := index + 1
+                exponent := exponent + 1
+                if index + 1 
+                  >= data.processed_number[data_number].results.size() then
+                  break while
+                end if
+              end while
+              print "^", exponent
+            end if
+          end if
+        end for
+      end if
+    end for
+  end procedure 
+}

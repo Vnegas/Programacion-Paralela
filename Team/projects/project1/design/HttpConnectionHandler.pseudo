@@ -1,0 +1,43 @@
+class HttpConnectionHandler {
+  run():
+    consumeForever()
+    produce(reqRes())
+    return EXIT_SUCCESS
+  end procedure
+
+  consume(Socket data):
+    while (true) do
+      httpRequest = create HttpRequest(data)
+
+      if (!httpRequest->parse()) do
+        delete httpRequest
+        break
+      end if
+
+      httpResponse = create HttpResponse(data)
+      handled = handleHttpRequest(httpRequest,
+          httpResponse)
+      if (!handled or httpRequest->getHttpVersion() == "HTTP/1.0") do
+        delete httpRequest
+        delete httpResponse
+        data.close()
+        break
+      end if
+    end while
+  end procedure
+
+  handleHttpRequest(HttpRequest* httpRequest, HttpResponse* httpResponse):
+    httpData.httpRequest = httpRequest
+    httpData.httpResponse = httpResponse
+
+    address = httpRequest->getNetworkAddress()
+    Log::append(Log::INFO, "connection", "connection established with client " + 
+      address.getIP() + " port " + std::to_string(address.getPort()))
+
+    Log::append(Log::INFO, "request", httpRequest->getMethod() + ' ' + 
+      httpRequest->getURI() + ' ' + httpRequest->getHttpVersion())
+
+  produce(httpData)
+  return true
+  end procedure
+}

@@ -25,7 +25,6 @@ BUILD=build
 DOC=doc
 SRC=src
 TESTS=tests
-TEMP=temp
 
 # If src/ dir does not exist, use current directory .
 ifeq "$(wildcard $(SRC) )" ""
@@ -52,7 +51,7 @@ OBJECTS=$(strip $(OBJECTC) $(OBJECTX))
 TESTINP=$(wildcard $(TESTS)/input*.txt)
 INCLUDE=$(DIRS:%=-I%)
 DEPENDS=$(OBJECTS:%.o=%.d)
-REMOVES=$(BIN)/ $(BUILD)/ $(DOC)/ $(TEMP)/
+REMOVES=$(BIN)/ $(BUILD)/ $(DOC)/
 IGNORES=$(REMOVES) *.pyc .vscode
 EXEFILE=$(BIN)/$(APPNAME)
 MAINCLS=$(shell grep -lE 'static\s+void\s+main\b' $(SRC)/*.java | xargs basename -s .java)
