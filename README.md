@@ -1,4 +1,6 @@
-# concurrente23a-Sebastian_Venegas
+# Sebastian_Venegas
+
+Repositorio destinado a los lenguajes C y C++, empleando el uso de la programación paralela y concurrente.
 
 ## Glosario
 
