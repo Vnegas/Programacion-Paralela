@@ -1,0 +1,15 @@
+procedure main:
+  w = read_integer()
+  shared sem* w_ready = create_semaphores(0) // array of w semaphores
+  signal(w_ready[0])
+  for i = 1 until w do
+    create_thread(thread_w(i-1, statement_w))
+  end for
+end procedure
+
+procedure thread_w(predecesor, statement_w):
+  int me = predecesor + 1
+  wait(w_ready[predecesor])
+  statement_w
+  signal(w_ready[me])
+end procedure
